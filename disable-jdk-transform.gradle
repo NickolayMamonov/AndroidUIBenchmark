@@ -1,0 +1,36 @@
+/**
+ * This script disables the JDK image transformation that causes issues with Android Gradle Plugin.
+ * Apply this script to any module that uses the Android plugin.
+ */
+
+afterEvaluate {
+    if (project.hasProperty('android')) {
+        // Older Android Gradle Plugin doesn't support androidComponents.beforeVariants
+        // Try direct fix through compiler arguments instead
+        println "${project.name}: Applying Java compiler args fix for JDK image transform"
+        
+        project.tasks.withType(JavaCompile).configureEach { task ->
+            task.doFirst {
+                println "${project.name}: Applying JDK image transform fix for ${task.name}"
+                // Add compiler args to avoid JDK image transform
+                task.options.compilerArgs.add('--system=none')
+                task.options.compilerArgs.add('-Xdoclint:none')
+                
+                // Set fork options if Java home is available
+                task.options.fork = true
+                def javaHome = System.getProperty('java.home')
+                if (javaHome && new File(javaHome).exists()) {
+                    task.options.forkOptions.javaHome = project.file(javaHome)
+                }
+            }
+        }
+        
+        // Add specific fixes for JavaCompile tasks that handle the android-specific compilation
+        project.tasks.matching { it.name.startsWith('compile') && it.name.endsWith('JavaWithJavac') }.all { task ->
+            task.doFirst {
+                println "${project.name}: Adding system module fix to ${task.name}"
+                task.options.compilerArgs.add('--system=none')
+            }
+        }
+    }
+}

@@ -1,0 +1,22 @@
+pluginManagement {
+    plugins {
+        id 'org.jetbrains.kotlin.jvm' version '2.1.10'
+        id 'org.jetbrains.kotlin.plugin.serialization' version '2.1.10'
+    }
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
+    }
+}
+
+rootProject.name = "AndroidUIBenchmark"
+
+include ':app'
+ include ':app-xml'
+ include ':app-compose'
+ include ':app-bdui'
+include ':backend'
+include ':backend-bdui'
+//include ':common-models'

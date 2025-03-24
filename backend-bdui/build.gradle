@@ -1,0 +1,69 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'application'
+    id 'org.jetbrains.kotlin.plugin.serialization'
+}
+
+group = 'com.research.uibenchmark'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += ["-Xskip-metadata-version-check"]
+    }
+}
+
+// Конфигурация для совместимости с Android библиотеками
+configurations {
+    // Игнорируем конфликты с Android-зависимостями, так как нам нужны только модели
+    runtimeClasspath.exclude group: 'com.android.support'
+    runtimeClasspath.exclude group: 'androidx'
+    runtimeClasspath.exclude group: 'android'
+    runtimeClasspath.exclude group: 'com.google.android'
+}
+
+application {
+    mainClass = 'com.research.uibenchmark.BduiApplicationKt'
+}
+
+ext {
+    // Используем версию Ktor, совместимую с Kotlin 2.1.10
+    ktor_version = '2.3.10'
+    exposed_version = '0.46.0'
+    // Другие зависимости
+    logback_version = '1.4.14'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    
+    // Ktor Server
+    implementation "io.ktor:ktor-server-core:$ktor_version"
+    implementation "io.ktor:ktor-server-netty:$ktor_version"
+    implementation "io.ktor:ktor-server-cors:$ktor_version"
+    implementation "io.ktor:ktor-server-call-logging:$ktor_version"
+    implementation "io.ktor:ktor-server-content-negotiation:$ktor_version"
+    
+    // Сериализация
+    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
+    
+    // База данных
+    implementation "org.jetbrains.exposed:exposed-core:$exposed_version"
+    implementation "org.jetbrains.exposed:exposed-jdbc:$exposed_version"
+    implementation "com.h2database:h2:$h2_version"
+    
+    // Логирование
+    implementation "ch.qos.logback:logback-classic:$logback_version"
+    
+    // Тестирование
+    testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+}

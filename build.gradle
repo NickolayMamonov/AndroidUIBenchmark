@@ -1,0 +1,51 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Set system properties for JDK path to avoid transformation issues
+try {
+    def javaHome = System.getProperty('java.home')
+    if (javaHome) {
+        println "Using Java home: ${javaHome}"
+        System.setProperty('java.home', javaHome)
+    }
+} catch (Exception e) {
+    println "Warning: Could not set Java home: ${e.message}"
+}
+
+// Настройка для всех проектов
+allprojects {
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+buildscript {
+    ext {
+        kotlin_version = '2.1.10'
+        compose_version = '1.6.0'
+        compose_compiler_version = '1.5.8'
+        ktor_version = '2.3.10'
+        java_version = JavaVersion.VERSION_17
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.7.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.50"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
