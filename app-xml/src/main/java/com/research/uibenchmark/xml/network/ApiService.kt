@@ -1,6 +1,6 @@
 package com.research.uibenchmark.xml.network
 
-import com.research.uibenchmark.model.Item
+import com.research.uibenchmark.xml.model.Item
 import retrofit2.Response
 import retrofit2.http.*
 

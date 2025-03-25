@@ -2,7 +2,7 @@ package com.research.uibenchmark.xml.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.research.uibenchmark.model.Item
+import com.research.uibenchmark.xml.model.Item
 import com.research.uibenchmark.xml.repository.ItemRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,6 +1,6 @@
 package com.research.uibenchmark.xml.repository
 
-import com.research.uibenchmark.model.Item
+import com.research.uibenchmark.xml.model.Item
 import com.research.uibenchmark.xml.network.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
