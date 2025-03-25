@@ -22,7 +22,7 @@ buildscript {
     ext {
         kotlin_version = '1.8.21'
         compose_version = '1.6.0'
-        compose_compiler_version = '1.4.7'
+        compose_compiler_version = '1.4.7' // Эта версия совместима с Kotlin 1.8.21
         ktor_version = '2.3.10'
         java_version = JavaVersion.VERSION_17
     }

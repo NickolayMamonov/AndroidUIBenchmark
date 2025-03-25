@@ -38,10 +38,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.research.uibenchmark.compose.benchmark.BenchmarkUtils
+import com.research.uibenchmark.compose.model.Item
 import com.research.uibenchmark.compose.network.RetrofitClient
 import com.research.uibenchmark.compose.ui.ItemList
 import com.research.uibenchmark.compose.viewmodel.ItemViewModel
-import com.research.uibenchmark.model.Item
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -58,11 +58,11 @@ class ComposeActivity : ComponentActivity() {
                 MaterialTheme {
                     Surface(color = MaterialTheme.colors.background) {
                         BenchmarkApp(
-                            viewModel = viewModel,
-                            onViewItems = { loadItemsScreen() },
-                            onCreateItem = { loadCreateItemScreen() },
-                            onRunBenchmark = { loadBenchmarkScreen() },
-                            onItemClick = { item -> loadItemDetailScreen(item.id) }
+                        viewModel = viewModel,
+                        onViewItems = { loadItemsScreen() },
+                        onCreateItem = { loadCreateItemScreen() },
+                        onRunBenchmark = { loadBenchmarkScreen() },
+                        onItemClick = { item -> loadItemDetailScreen(item) }
                         )
                     }
                 }
@@ -139,11 +139,11 @@ class ComposeActivity : ComponentActivity() {
         }
     }
     
-    private fun loadItemDetailScreen(id: Long) {
+    private fun loadItemDetailScreen(item: Item) {
         lifecycleScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    RetrofitClient.apiService.getItemDetailScreenUI(id)
+                    RetrofitClient.apiService.getItemDetailScreenUI(item.id)
                 }
                 
                 if (response.isSuccessful && response.body() != null) {
@@ -151,7 +151,7 @@ class ComposeActivity : ComponentActivity() {
                     // Но здесь просто покажем сообщение для демонстрации
                     Toast.makeText(
                         this@ComposeActivity,
-                        "Загружены детали для элемента $id",
+                        "Загружены детали для элемента ${item.id}",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -186,7 +186,7 @@ class ComposeActivity : ComponentActivity() {
                         id = System.currentTimeMillis(),
                         title = "New Item ${System.currentTimeMillis()}",
                         description = "Description for new test item",
-                        imageUrl = null,
+                        imageUrl = "", // Пустая строка вместо null
                         timestamp = System.currentTimeMillis()
                     )
                     viewModel.createItem(newItem)
@@ -335,10 +335,10 @@ fun BenchmarkApp(
                     }
                 }
                 
-//                ItemList(
-//                    items = items,
-//                    onItemClick = { item -> onItemClick(item.id) }
-//                )
+                ItemList(
+                    items = items,
+                    onItemClick = onItemClick
+                )
                 
                 PullRefreshIndicator(
                     refreshing = isLoading,

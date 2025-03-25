@@ -1,6 +1,6 @@
 package com.research.uibenchmark.compose.network
 
-import com.research.uibenchmark.model.Item
+import com.research.uibenchmark.compose.model.Item
 import retrofit2.Response
 import retrofit2.http.*
 

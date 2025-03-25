@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.research.uibenchmark.model.Item
+import com.research.uibenchmark.compose.model.Item
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

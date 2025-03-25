@@ -41,6 +41,10 @@ android {
         viewBinding true
         compose true
     }
+    
+    composeOptions {
+        kotlinCompilerExtensionVersion rootProject.ext.compose_compiler_version
+    }
 
 }
 
@@ -61,8 +65,8 @@ dependencies {
      implementation 'androidx.activity:activity-compose:1.8.0'
      debugImplementation "androidx.compose.ui:ui-tooling"
     
-    // Compose Compiler
-     implementation "androidx.compose.compiler:compiler:1.5.8"
+    // Мы не указываем зависимость для Compose Compiler напрямую,
+    // так как она управляется через composeOptions.kotlinCompilerExtensionVersion
     
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0'
