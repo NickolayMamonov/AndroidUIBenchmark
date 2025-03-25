@@ -100,6 +100,7 @@ class XmlActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 Log.d("XML", "Loading main screen...")
+                Log.d("XML", "Requesting URL: http://10.0.2.2:8082/ui/main")
                 val response = withContext(Dispatchers.IO) {
                     RetrofitClient.apiService.getMainScreenUI()
                 }

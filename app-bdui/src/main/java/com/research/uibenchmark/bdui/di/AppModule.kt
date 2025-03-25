@@ -35,7 +35,7 @@ val appModule = module {
             .create()
             
         Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8081/") // Используем 10.0.2.2 для доступа к localhost с эмулятора
+            .baseUrl("http://10.0.2.2:8082/") // Используем 10.0.2.2 для доступа к localhost с эмулятора
             .client(get())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

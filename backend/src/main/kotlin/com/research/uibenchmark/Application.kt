@@ -31,5 +31,11 @@ fun Application.module() {
         allowMethod(io.ktor.http.HttpMethod.Patch)
     }
     
+    routing {
+        route("/api") {
+            // Добавляем префикс /api для всех маршрутов
+        }
+    }
+    
     configureItemRoutes()
 }

@@ -8,19 +8,19 @@ import retrofit2.http.*
  * Интерфейс для работы с API
  */
 interface ApiService {
-    @GET("ui/main")
+    @GET("api/ui/main")
     suspend fun getMainScreenUI(): Response<Map<String, Any>>
     
-    @GET("ui/items")
+    @GET("api/ui/items")
     suspend fun getItemsScreenUI(): Response<Map<String, Any>>
     
-    @GET("ui/items/{id}")
+    @GET("api/ui/items/{id}")
     suspend fun getItemDetailScreenUI(@Path("id") id: Long): Response<Map<String, Any>>
     
-    @GET("ui/create-item")
+    @GET("api/ui/create-item")
     suspend fun getCreateItemScreenUI(): Response<Map<String, Any>>
     
-    @GET("ui/benchmark")
+    @GET("api/ui/benchmark")
     suspend fun getBenchmarkUI(): Response<Map<String, Any>>
     
     // Оригинальные методы для работы с данными
