@@ -1,3 +1,4 @@
+
 package com.research.uibenchmark.bdui.ui.renders
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -6,7 +7,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,10 +59,10 @@ fun RenderInput(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         visualTransformation = visualTransformation,
         shape = RoundedCornerShape(cornerRadius.dp),
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = backgroundColor,
-            unfocusedTextColor = backgroundColor
-        ),
+//        colors = TextFieldDefaults.colors(
+//            focusedTextColor = backgroundColor,
+//            unfocusedTextColor = backgroundColor
+//        ),
         modifier = modifier
             .padding(component.margin.toModifierPadding())
             .fillMaxWidth()

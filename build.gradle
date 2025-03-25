@@ -20,9 +20,9 @@ allprojects {
 
 buildscript {
     ext {
-        kotlin_version = '2.1.10'
+        kotlin_version = '1.8.21'
         compose_version = '1.6.0'
-        compose_compiler_version = '1.5.8'
+        compose_compiler_version = '1.4.7'
         ktor_version = '2.3.10'
         java_version = JavaVersion.VERSION_17
     }
@@ -34,7 +34,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:8.7.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:2.50"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.51"
     }
 }
 
@@ -44,8 +44,37 @@ allprojects {
         mavenCentral()
         maven { url "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
     }
+    
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+    
+    // Запускаем дополнительные чистки
+    doLast {
+        println "\n\n DEEP CLEANING ALL PROJECTS \n\n"
+    }
+    
+    // Очищаем файлы во всех подпроектах
+    subprojects.each {
+        delete "${it.projectDir}/build"
+        delete "${it.projectDir}/src/main/kapt"
+        
+        // Удаление всех Hilt файлов
+        delete fileTree("${it.projectDir}/build/generated") { 
+            include "**/*_HiltModules*"
+            include "**/*_Factory*"
+            include "**/*_MembersInjector*"
+            include "**/Hilt_*"
+            include "**/hilt_aggregated_deps/**"
+            include "**/*_GeneratedInjector*"
+        }
+        
+        // Кеш Gradle
+        delete "${it.projectDir}/.gradle"
+    }
+    
+    // Удалить и корневой кеш 
+    delete "${rootProject.projectDir}/.gradle"
+    delete "${rootProject.projectDir}/build"
 }

@@ -335,10 +335,10 @@ fun BenchmarkApp(
                     }
                 }
                 
-                ItemList(
-                    items = items,
-                    onItemClick = { item -> onItemClick(item.id) }
-                )
+//                ItemList(
+//                    items = items,
+//                    onItemClick = { item -> onItemClick(item.id) }
+//                )
                 
                 PullRefreshIndicator(
                     refreshing = isLoading,

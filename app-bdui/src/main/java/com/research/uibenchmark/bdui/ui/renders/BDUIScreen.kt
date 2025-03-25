@@ -52,10 +52,10 @@ fun SDUIScreen(
 
             TopAppBar(
                 title = { Text(title) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = toolbarColor,
-                    titleContentColor = Color.White
-                )
+//                colors = TopAppBarDefaults.topAppBarColors(
+//                    containerColor = toolbarColor,
+//                    titleContentColor = Color.White
+//                )
             )
         }
 

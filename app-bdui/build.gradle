@@ -2,9 +2,9 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
 }
+
 
 android {
     namespace 'com.research.uibenchmark.bdui'
@@ -15,7 +15,7 @@ android {
         targetSdkVersion 34
         versionCode 1
         versionName "1.0"
-        
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,89 +30,121 @@ android {
             debuggable false
         }
     }
-    
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    
+
+    kapt {
+        // Обязательно отключаем инкрементальную компиляцию
+        correctErrorTypes true
+        keepJavacAnnotationProcessors true
+        // Специальные аргументы для Dagger/Hilt
+        arguments {
+            arg("dagger.fastInit", "enabled")
+            arg("dagger.fullBindingGraphValidation", "ERROR")
+            arg("dagger.incrementalProcessing", "false")
+            // Отключаем проверки, которые могут вызывать конфликты
+            arg("dagger.hilt.disableModulesHaveInstallInCheck", "true")
+            // Специальные флаги для Kapt
+            arg("kapt.verbose", "true")
+            arg("room.incremental", "false") // Если используется Room
+        }
+        // Полностью отключаем инкрементальность
+        includeCompileClasspath = false
+    }
+
     kotlinOptions {
         jvmTarget = '17'
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+        ]
     }
-    
+
     buildFeatures {
         viewBinding true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.4.7"
     }
 }
 
+
 dependencies {
 //    implementation project(':common-models')
-    
+
+    // Koin for Dependency Injection
+    def koin_version = "3.5.3"
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    
+
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
-    
+
     // Networking
     implementation 'com.squareup.retrofit2:retrofit:2.11.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-compose-android:2.8.7'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.7.0'
+    implementation 'androidx.compose.material3:material3-android:1.3.1'
+    implementation 'io.insert-koin:koin-androidx-compose:4.0.0'
 
-    // Jetpack Compose (disabled)
-     def composeBom = platform('androidx.compose:compose-bom:2024.02.00')
-     implementation composeBom
-     androidTestImplementation composeBom
-    
-     implementation "androidx.compose.ui:ui"
-     implementation "androidx.compose.material:material"
-     implementation "androidx.compose.ui:ui-tooling-preview"
-     implementation 'androidx.activity:activity-compose:1.8.2'
-     debugImplementation "androidx.compose.ui:ui-tooling"
-     implementation "androidx.compose.material3:material3"
-     implementation "androidx.compose.ui:ui-graphics"
-    
-    // Compose Compiler
-    // implementation "androidx.compose.compiler:compiler:1.5.8"
-    
-    // Navigation (disabled due to Compose dependency)
-     implementation "androidx.navigation:navigation-compose:2.7.7"
-     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0"
-    
-    // Dependency Injection
-    implementation "com.google.dagger:hilt-android:2.50"
-    kapt "com.google.dagger:hilt-compiler:2.50"
-     implementation "androidx.hilt:hilt-navigation-compose:1.2.0" // Disabled (Compose dependency)
-    
+
+    def composeBom = platform('androidx.compose:compose-bom:2025.02.00')
+    implementation(composeBom) {
+        exclude group: 'androidx.compose.material3', module: 'material3'
+    }
+    androidTestImplementation(composeBom) {
+        exclude group: 'androidx.compose.material3', module: 'material3'
+    }
+
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.ui:ui-tooling-preview"
+    implementation 'androidx.activity:activity-compose:1.8.2'
+    debugImplementation "androidx.compose.ui:ui-tooling"
+
+    implementation "androidx.compose.ui:ui-graphics"
+
+    implementation "androidx.navigation:navigation-compose:2.7.7"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0"
+
+    // Зависимости для Retrofit без Hilt
+    implementation 'javax.inject:javax.inject:1'
+
     // Image Loading
-     implementation "io.coil-kt:coil-compose:2.6.0" // Disabled (Compose dependency)
-    
+    implementation "io.coil-kt:coil-compose:2.6.0"
+
     // Server API communication
     implementation 'com.squareup.retrofit2:retrofit:2.11.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
-    
+
     // Server-Driven UI specific
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
     implementation 'androidx.datastore:datastore-preferences-core:1.0.0'
-    
+
     // Animations (disabled due to Compose dependency)
     // implementation "androidx.compose.animation:animation"
     // implementation "androidx.compose.animation:animation-graphics"
-    
+
     // Benchmark
     implementation 'androidx.benchmark:benchmark-common:1.2.0'
-    
+
     // Testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

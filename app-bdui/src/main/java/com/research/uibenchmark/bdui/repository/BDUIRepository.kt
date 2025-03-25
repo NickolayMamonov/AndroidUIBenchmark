@@ -4,14 +4,11 @@ import com.research.uibenchmark.bdui.model.BDUIResponse
 import com.research.uibenchmark.bdui.network.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Репозиторий для работы с BDUI API
  */
-@Singleton
-class BDUIRepository @Inject constructor(
+class BDUIRepository(
     private val apiService: ApiService
 ) {
     suspend fun getMainScreen(): Result<BDUIResponse> = withContext(Dispatchers.IO) {

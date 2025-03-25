@@ -7,18 +7,15 @@ import com.research.uibenchmark.bdui.model.BDUIResponse
 import com.research.uibenchmark.bdui.repository.BDUIRepository
 import com.research.uibenchmark.bdui.utils.ComponentDebugHelper
 import com.research.uibenchmark.bdui.utils.DebugUtils
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 private const val TAG = "BDUIViewModel"
 
-@HiltViewModel
-class BDUIViewModel @Inject constructor(
+class BDUIViewModel(
     private val repository: BDUIRepository
 ) : ViewModel() {
 

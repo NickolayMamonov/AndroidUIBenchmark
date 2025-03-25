@@ -11,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.research.uibenchmark.model.Item
 import com.research.uibenchmark.xml.benchmark.BenchmarkUtils
 import com.research.uibenchmark.xml.databinding.ActivityXmlBinding
-import com.research.uibenchmark.model.Item
 import com.research.uibenchmark.xml.network.RetrofitClient
 import com.research.uibenchmark.xml.viewmodel.ItemViewModel
 import kotlinx.coroutines.Dispatchers
@@ -71,7 +71,7 @@ class XmlActivity : AppCompatActivity() {
                 }
             }
         }
-        
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loading.collectLatest { isLoading ->
@@ -198,7 +198,7 @@ class XmlActivity : AppCompatActivity() {
                 val response = withContext(Dispatchers.IO) {
                     RetrofitClient.apiService.getCreateItemScreenUI()
                 }
-                
+
                 if (response.isSuccessful && response.body() != null) {
                     // В XML подходе мы бы открыли новую Activity или Fragment
                     // Но здесь создадим новый элемент для демонстрации

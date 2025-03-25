@@ -36,10 +36,10 @@ fun SuccessScreen(viewModel: BDUIViewModel) {
                 }
             }
             is UIState.Success -> {
-                Log.d(TAG, "Success state with screen: ${state.response.screen?.id}")
+                Log.d(TAG, "Success state with screen: ${state.data.screen?.id}")
 
                 // Проверка на null
-                if (state.response.screen == null) {
+                if (state.data.screen == null) {
                     ErrorScreen(
                         message = "Получен пустой экран от сервера",
                         onRetry = { viewModel.loadMainScreen() }
@@ -53,7 +53,7 @@ fun SuccessScreen(viewModel: BDUIViewModel) {
                         modifier = Modifier.fillMaxSize()
                     ) {
                         SDUIScreen(
-                            screen = state.response.screen,
+                            screen = state.data.screen,
                             onNavigate = { url -> viewModel.navigateTo(url) },
                             onApiCall = { url, payload -> viewModel.makeApiCall(url, payload) }
                         )
@@ -65,7 +65,7 @@ fun SuccessScreen(viewModel: BDUIViewModel) {
                     }
                 } else {
                     SDUIScreen(
-                        screen = state.response.screen,
+                        screen = state.data.screen,
                         onNavigate = { url -> viewModel.navigateTo(url) },
                         onApiCall = { url, payload -> viewModel.makeApiCall(url, payload) }
                     )

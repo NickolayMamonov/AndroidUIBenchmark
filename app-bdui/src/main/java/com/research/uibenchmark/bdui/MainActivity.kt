@@ -3,18 +3,17 @@ package com.research.uibenchmark.bdui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
 import com.research.uibenchmark.bdui.viewmodel.BDUIViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: BDUIViewModel by viewModels()
-
+    // Inject ViewModel using Koin
+    private val viewModel: BDUIViewModel by viewModel()
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
         setContent {
             MaterialTheme {
                 SuccessScreen(viewModel)
@@ -22,6 +21,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (!viewModel.navigateBack()) {
             super.onBackPressed()

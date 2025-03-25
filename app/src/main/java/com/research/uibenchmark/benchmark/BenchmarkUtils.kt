@@ -3,7 +3,6 @@ package com.research.uibenchmark.benchmark
 import android.os.Build
 import android.os.Debug
 import android.util.Log
-import androidx.benchmark.BenchmarkState
 import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
