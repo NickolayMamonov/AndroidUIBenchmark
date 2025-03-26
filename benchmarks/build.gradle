@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt' // Для поддержки аннотаций
 }
 
 android {
@@ -11,7 +12,8 @@ android {
         minSdkVersion 26
         targetSdkVersion 34
         
-        testInstrumentationRunner "androidx.benchmark.junit4.AndroidBenchmarkRunner"
+        testInstrumentationRunner = "androidx.benchmark.junit4.AndroidBenchmarkRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildTypes {
@@ -40,6 +42,11 @@ android {
     // Ensure we don't generate R classes for the resources created in the test source set
     androidResources {
         noCompress ''
+    }
+    
+    // Добавляем эксплицитную поддержку viewBinding
+    buildFeatures {
+        viewBinding true
     }
 }
 

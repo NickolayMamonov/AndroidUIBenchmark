@@ -14,9 +14,9 @@ pluginManagement {
 rootProject.name = "AndroidUIBenchmark"
 
 include ':app'
- include ':app-xml'
- include ':app-compose'
- include ':app-bdui'
+include ':app-xml'
+include ':app-compose'
+include ':app-bdui'
 include ':backend'
 include ':backend-bdui'
 include ':common-models'

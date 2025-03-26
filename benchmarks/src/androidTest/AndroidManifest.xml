@@ -16,5 +16,10 @@
     <instrumentation
         android:name="androidx.benchmark.junit4.AndroidBenchmarkRunner"
         android:targetPackage="com.research.uibenchmark.benchmarks"
-        android:label="UI Benchmarks" />
+        android:label="UI Benchmarks">
+        <!-- Добавляем мета-данные для разделения тестов -->
+        <meta-data
+            android:name="androidx.benchmark.separateProcesses"
+            android:value="true" />
+    </instrumentation>
 </manifest>

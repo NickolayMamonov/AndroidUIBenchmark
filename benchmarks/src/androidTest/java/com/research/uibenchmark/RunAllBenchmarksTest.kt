@@ -49,6 +49,24 @@ class RunAllBenchmarksTest {
         benchmark.composeStartupTime()
         benchmark.xmlStartupTime()
         benchmark.bduiStartupTime()
+        
+        // Новые типы запуска
+        val startupTypeBenchmark = AppStartupTypeBenchmark()
+        
+        // Холодный старт
+        startupTypeBenchmark.composeColdStartup()
+        startupTypeBenchmark.xmlColdStartup()
+        startupTypeBenchmark.bduiColdStartup()
+        
+        // Теплый старт
+        startupTypeBenchmark.composeWarmStartup()
+        startupTypeBenchmark.xmlWarmStartup()
+        startupTypeBenchmark.bduiWarmStartup()
+        
+        // Горячий старт
+        startupTypeBenchmark.composeHotStartup()
+        startupTypeBenchmark.xmlHotStartup()
+        startupTypeBenchmark.bduiHotStartup()
     }
     
     private fun runMemoryBenchmarks() {

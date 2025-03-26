@@ -68,9 +68,27 @@ class BenchmarkSummary {
         val dataChangeFiles = relevantFiles.filter { it.name.contains("data_change") }
         val complexityFiles = relevantFiles.filter { it.name.contains("complexity") }
         
+        // Выделяем файлы разных типов запуска
+        val coldStartFiles = startupFiles.filter { it.name.contains("cold") }
+        val warmStartFiles = startupFiles.filter { it.name.contains("warm") }
+        val hotStartFiles = startupFiles.filter { it.name.contains("hot") }
+        
         // Добавляем метрики в JSON по категориям
         if (startupFiles.isNotEmpty()) {
             parseMetricsFromFiles(categoryJson, startupFiles, "startup_time")
+        }
+        
+        // Добавляем метрики для разных типов запуска
+        if (coldStartFiles.isNotEmpty()) {
+            parseMetricsFromFiles(categoryJson, coldStartFiles, "cold_startup")
+        }
+        
+        if (warmStartFiles.isNotEmpty()) {
+            parseMetricsFromFiles(categoryJson, warmStartFiles, "warm_startup")
+        }
+        
+        if (hotStartFiles.isNotEmpty()) {
+            parseMetricsFromFiles(categoryJson, hotStartFiles, "hot_startup")
         }
         
         if (memoryFiles.isNotEmpty()) {
@@ -166,6 +184,23 @@ class BenchmarkSummary {
                     sb.appendLine("  Avg: ${startupJson.optDouble("avg", 0.0)} ms")
                     sb.appendLine("  Min: ${startupJson.optDouble("min", 0.0)} ms")
                     sb.appendLine("  Max: ${startupJson.optDouble("max", 0.0)} ms")
+                    
+                    // Добавляем информацию о разных типах старта
+                    if (uiJson.has("cold_startup")) {
+                        val coldJson = uiJson.getJSONObject("cold_startup")
+                        sb.appendLine("  Cold Start: ${coldJson.optDouble("avg", 0.0)} ms")
+                    }
+                    
+                    if (uiJson.has("warm_startup")) {
+                        val warmJson = uiJson.getJSONObject("warm_startup")
+                        sb.appendLine("  Warm Start: ${warmJson.optDouble("avg", 0.0)} ms")
+                    }
+                    
+                    if (uiJson.has("hot_startup")) {
+                        val hotJson = uiJson.getJSONObject("hot_startup")
+                        sb.appendLine("  Hot Start: ${hotJson.optDouble("avg", 0.0)} ms")
+                    }
+                    
                     sb.appendLine()
                 }
                 

@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/app-xml" />
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/backend-bdui" />
+            <option value="$PROJECT_DIR$/benchmarks" />
             <option value="$PROJECT_DIR$/common-models" />
           </set>
         </option>
